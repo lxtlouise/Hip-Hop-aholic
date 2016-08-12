@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="dSL-yg-uY8">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--News-->
+        <scene sceneID="SYk-Ru-7L2">
+            <objects>
+                <tableViewController title="News" id="4j6-Xh-lQr" customClass="NewsTableViewController" customModule="hiphop" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8Lc-dZ-qsS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="News" id="iT9-Ri-Z41">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iT9-Ri-Z41" id="zot-2D-STq">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4j6-Xh-lQr" id="hjm-z3-pxu"/>
+                            <outlet property="delegate" destination="4j6-Xh-lQr" id="eBS-sW-fzP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="qhT-GS-5Yr"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="D6s-1U-kmH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4078" y="-1982"/>
+        </scene>
+        <!--Artists-->
+        <scene sceneID="wdM-AL-g3c">
+            <objects>
+                <tableViewController title="Artists" id="G9B-Ou-l8l" customClass="ArtistsTableViewController" customModule="hiphop" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelectionDuringEditing="YES" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="SMC-b1-ywa">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Artist" rowHeight="60" id="Sz5-BL-T2a" customClass="ArtistsTableViewCell" customModule="hiphop" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sz5-BL-T2a" id="f1d-rR-7Jy">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cc3-va-d4h">
+                                            <rect key="frame" x="76" y="0.0" width="516" height="59.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bvB-Hw-fsb">
+                                            <rect key="frame" x="8" y="0.0" width="60" height="60"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                </accessibility>
+                                <connections>
+                                    <outlet property="ArtistImage" destination="bvB-Hw-fsb" id="L5I-ME-0aX"/>
+                                    <outlet property="ArtistName" destination="Cc3-va-d4h" id="ss9-zq-ov6"/>
+                                    <segue destination="BgE-0q-55w" kind="show" identifier="ArtistInfo" id="G2D-Pv-8ut"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="G9B-Ou-l8l" id="MF5-4A-lO5"/>
+                            <outlet property="delegate" destination="G9B-Ou-l8l" id="gAM-GI-cGY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Artists" id="ZMO-UB-6AD"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ihA-0M-rI9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5968" y="-1109"/>
+        </scene>
+        <!--Artist Info View Controller-->
+        <scene sceneID="sah-5y-iyi">
+            <objects>
+                <viewController id="ybo-4C-6eS" customClass="ArtistInfoViewController" customModule="hiphop" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Q3m-jf-WJi"/>
+                        <viewControllerLayoutGuide type="bottom" id="Gie-GH-ZfN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8Es-Ll-AX5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQ1-NO-fOq">
+                                <rect key="frame" x="156" y="72" width="424" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5ZB-Oa-Wvl">
+                                <rect key="frame" x="20" y="72" width="128" height="128"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QcY-2f-tdA">
+                                <rect key="frame" x="156" y="126" width="424" height="74"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="TZ3-Zx-Pol">
+                                <rect key="frame" x="20" y="208" width="560" height="335"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rAq-rw-R3j"/>
+                    <connections>
+                        <outlet property="artistInfoGenres" destination="QcY-2f-tdA" id="bgo-gS-0DT"/>
+                        <outlet property="artistInfoImage" destination="5ZB-Oa-Wvl" id="mXI-ea-6es"/>
+                        <outlet property="artistInfoIntroduction" destination="TZ3-Zx-Pol" id="sOh-12-VUe"/>
+                        <outlet property="artistInfoName" destination="EQ1-NO-fOq" id="3qq-Iv-TlD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H0H-FR-Ly1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6756" y="-369"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="3vG-GI-sHc">
+            <objects>
+                <tabBarController id="dSL-yg-uY8" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="WS7-m9-7E3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ery-Rs-WCE" kind="relationship" relationship="viewControllers" id="PTR-wg-wIc"/>
+                        <segue destination="UE3-TN-X2k" kind="relationship" relationship="viewControllers" id="BQd-UR-UWa"/>
+                        <segue destination="3X1-u6-ACx" kind="relationship" relationship="viewControllers" id="G1k-em-May"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qZv-bO-3S1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2050" y="-369"/>
+        </scene>
+        <!--Artists-->
+        <scene sceneID="2bP-kZ-get">
+            <objects>
+                <splitViewController title="Artists" id="UE3-TN-X2k" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Artists" image="artist_icon" id="pPK-M7-Q1a"/>
+                    <connections>
+                        <segue destination="tXw-yH-ks8" kind="relationship" relationship="masterViewController" id="Obj-Ri-jc5"/>
+                        <segue destination="BgE-0q-55w" kind="relationship" relationship="detailViewController" id="BkB-bW-9NR"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="odd-0O-fpv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2954" y="-369"/>
+        </scene>
+        <!--News-->
+        <scene sceneID="4m7-R7-HPa">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ery-Rs-WCE" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="News" image="News_icon" id="ZaA-VY-1Wd"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FvK-5T-TqB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="4j6-Xh-lQr" kind="relationship" relationship="rootViewController" id="oqY-QW-MwI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KYU-nw-XaQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2954" y="-1457"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bdv-wn-oLv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="BgE-0q-55w" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="s4d-Bz-zk9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ybo-4C-6eS" kind="relationship" relationship="rootViewController" id="GCJ-hL-dOn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cOx-nj-RhV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5968" y="-369"/>
+        </scene>
+        <!--Genres-->
+        <scene sceneID="kl6-eL-DIe">
+            <objects>
+                <tableViewController id="5zn-Da-C3X" customClass="GenresTableViewController" customModule="hiphop" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="W8G-Va-6ov">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Genre" rowHeight="60" id="9Q6-gD-qg3" customClass="GenresTableViewCell" customModule="hiphop" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Q6-gD-qg3" id="Gil-va-osp">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="huu-ha-Rli">
+                                            <rect key="frame" x="8" y="0.0" width="584" height="59.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="genreName" destination="huu-ha-Rli" id="MB7-o0-ODV"/>
+                                    <segue destination="hum-Nr-QVP" kind="show" identifier="ShowArtistsOfGenre" id="ihn-UB-Kob"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5zn-Da-C3X" id="0kv-3g-uRK"/>
+                            <outlet property="delegate" destination="5zn-Da-C3X" id="g7v-q8-Tbb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Genres" id="YaD-hn-12A"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IWb-HN-11T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4368" y="693"/>
+        </scene>
+        <!--Artists Of Genre Table View Controller-->
+        <scene sceneID="TaH-qi-sPg">
+            <objects>
+                <tableViewController id="jLn-bU-X6V" customClass="ArtistsOfGenreTableViewController" customModule="hiphop" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="APc-sC-3hL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ArtistsOfGenre" rowHeight="60" id="nV8-yg-D9F" customClass="ArtistsOfGenreTableViewCell" customModule="hiphop" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nV8-yg-D9F" id="lSm-5d-FV3">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l1G-ih-EJg">
+                                            <rect key="frame" x="8" y="0.0" width="60" height="60"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nfw-dE-cOq">
+                                            <rect key="frame" x="76" y="0.0" width="516" height="59.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="artistOfGenreImage" destination="l1G-ih-EJg" id="5a1-YS-ZZK"/>
+                                    <outlet property="artistOfGenreName" destination="nfw-dE-cOq" id="6NR-eg-0bX"/>
+                                    <segue destination="BgE-0q-55w" kind="show" identifier="ArtistOfGenreInfo" id="Y35-4Z-LCu"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jLn-bU-X6V" id="2PI-8j-NZo"/>
+                            <outlet property="delegate" destination="jLn-bU-X6V" id="snv-iE-RYd"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="e5D-YX-RAq"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0GE-ZV-w4T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5258" y="1485"/>
+        </scene>
+        <!--Genres-->
+        <scene sceneID="3my-zf-D9o">
+            <objects>
+                <splitViewController title="Genres" id="3X1-u6-ACx" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Genres" image="Genres_icon" id="ZBd-wa-qj4"/>
+                    <connections>
+                        <segue destination="hum-Nr-QVP" kind="relationship" relationship="detailViewController" id="g58-p6-4Mb"/>
+                        <segue destination="VHT-Wu-DGn" kind="relationship" relationship="masterViewController" id="bL3-Jm-tOl"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KL4-uR-nt4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2954" y="693"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="M7g-MI-En7">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tXw-yH-ks8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YsD-gi-8dk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="G9B-Ou-l8l" kind="relationship" relationship="rootViewController" id="K6W-iN-GW8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UM0-dV-gQ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3668" y="-1109"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vmU-UJ-8bW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hum-Nr-QVP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mOy-0g-GaM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="jLn-bU-X6V" kind="relationship" relationship="rootViewController" id="vP1-aq-bgn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XOS-vg-Unl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4368" y="1485"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iT9-PJ-XHg">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VHT-Wu-DGn" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HY5-h3-QvS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5zn-Da-C3X" kind="relationship" relationship="rootViewController" id="aVD-NO-rPE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N1p-ob-7xG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3668" y="693"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Genres_icon" width="30" height="30"/>
+        <image name="News_icon" width="30" height="30"/>
+        <image name="artist_icon" width="30" height="30"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ihn-UB-Kob"/>
+        <segue reference="Y35-4Z-LCu"/>
+    </inferredMetricsTieBreakers>
+</document>
