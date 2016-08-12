@@ -55,6 +55,7 @@ class GenresTableViewController: UITableViewController, UISplitViewControllerDel
             if let agvc = segue.destinationViewController.contentViewController as? ArtistsOfGenreTableViewController{
                 let genreName = (sender as? GenresTableViewCell)?.genreName.text
                 let item = artistsOfGenreDictionary[genreName!]!
+                agvc.navigationItem.title = genreName
                 agvc.numberOfSections = item.count
                 agvc.artistsOfGenreTableData = item
             }

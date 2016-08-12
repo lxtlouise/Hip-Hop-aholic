@@ -52,10 +52,19 @@ class ArtistsOfGenreTableViewController: UITableViewController {
     
     // MARK: - Navigation
 
-    /*override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == StoryboardIdentifiers.ShowArtistOfGenreInfoIdentifier{
+            if let artistInfovc = segue.destinationViewController.contentViewController as? ArtistInfoViewController{
+                let name = (sender as? ArtistsOfGenreTableViewCell)!.artistOfGenreName.text
+                artistInfovc.navigationItem.title = name
+                artistInfovc.image = UIImage(named: name!)!
+                artistInfovc.name = name!
+                artistInfovc.genres = artistInfoData.artistGenresDictionary[name!]!
+                artistInfovc.intro = artistInfoData.artistIntroDictionary[name!]!
+            }
+        }
     }
-    */
+    
 
 
     /*

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ArtistInfoViewController: UIViewController {
+class ArtistInfoViewController: UIViewController{
     
     
     @IBOutlet weak var artistInfoImage: UIImageView!
@@ -20,6 +20,7 @@ class ArtistInfoViewController: UIViewController {
     var name: String = String()
     var genres: String = String()
     var intro: String = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.artistInfoImage.image = image
@@ -27,7 +28,9 @@ class ArtistInfoViewController: UIViewController {
         self.artistInfoGenres.text = genres
         self.artistInfoIntroduction.text = intro
     }
-
+    
+    
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

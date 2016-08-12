@@ -14,7 +14,8 @@ public struct artistInfoData{
         "Biggie":"b",
         "Chamillionare":"c",
         "Drake":"d",
-        "Eminem":"e"
+        "Eminem":"e",
+        "Future":"f"
     ]
     
     static let artistIntroDictionary: Dictionary<String, String> = [
@@ -22,6 +23,7 @@ public struct artistInfoData{
         "Biggie":"b",
         "Chamillionare":"c",
         "Drake":"d",
-        "Eminem":"e"
+        "Eminem":"e",
+        "Future":"f"
     ]
 }
