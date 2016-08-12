@@ -8,16 +8,9 @@
 
 import UIKit
 
-class ArtistsTableViewController: UITableViewController {
+class ArtistsTableViewController: UITableViewController, UISplitViewControllerDelegate{
     
-    var tableData = [
-        [["AZ", "AZ"]],
-    [["Biggie","Biggie"]],
-    [["Chamillionare","Chamillionare"]],
-    [["Drake", "Drake"]],
-    [["Eminem", "Eminem"]]
-]
-       var sectionHeaders = [String]()
+    var sectionHeaders = [String]()
     
     func setSectionHeaders(){
     for i in 0...24{
@@ -33,15 +26,18 @@ class ArtistsTableViewController: UITableViewController {
 
     
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        splitViewController?.delegate = self
+    }
+    
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
+        if primaryViewController.contentViewController == self{
+            if let avc = secondaryViewController.contentViewController as? ArtistInfoViewController where avc.name == ""{
+            return true
+            }
+        }
+        return false
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,27 +47,11 @@ class ArtistsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     
-    
-    
     //click the cell
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("\(tableData[indexPath.section][indexPath.row])")
     }
   
-    
-    //table view attributes
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return tableData.count
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableData[section].count
-    }
-
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return indexes[section]
-    }
-    
     //indexes
     override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         var indexes = [String]()
@@ -93,39 +73,46 @@ class ArtistsTableViewController: UITableViewController {
         }
         return 0
     }
-    private struct Storyboard{
-        static let ArtistsIdentifier = "Artist"
-        static let ShowArtistInfoIdentifier = "ArtistInfo"
+
+    //initialize table view
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return tableData.count
     }
+
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tableData[section].count
+    }
+
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return indexes[section]
+    }
+    
+        
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Storyboard.ArtistsIdentifier, forIndexPath: indexPath) as! ArtistsTableViewCell
-        
-        
+        let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.ArtistsIdentifier, forIndexPath: indexPath) as! ArtistsTableViewCell
         let item = tableData[indexPath.section][indexPath.row]
         cell.artistName.text = item[0]
         cell.artistImage.image = UIImage(named: item[1])
+        cell.artistImage.layer.cornerRadius = cell.artistImage.frame.size.width/2
+        cell.artistImage.clipsToBounds = true
         return cell
     }
     
     // MARK: - Navigation
-       override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == Storyboard.ShowArtistInfoIdentifier{
-            var destionationvc = segue.destinationViewController
-            if let navcon = destionationvc as? UINavigationController{
-                destionationvc = navcon.visibleViewController ?? destionationvc
-            }
-            if let artistInfovc = destionationvc as? ArtistInfoViewController{
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == StoryboardIdentifiers.ShowArtistInfoIdentifier{
+            if let artistInfovc = segue.destinationViewController.contentViewController as? ArtistInfoViewController{
                 let name = (sender as? ArtistsTableViewCell)!.artistName.text
                 artistInfovc.navigationItem.title = name!
                 artistInfovc.image = UIImage(named: name!)!
                 artistInfovc.name = name!
                 artistInfovc.genres = artistInfoData.artistGenresDictionary[name!]!
                 artistInfovc.intro = artistInfoData.artistIntroDictionary[name!]!
-        }
+            }
         }
     }
-
-
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -164,4 +151,15 @@ class ArtistsTableViewController: UITableViewController {
     
     
    
+}
+
+extension UIViewController{
+    var contentViewController: UIViewController{
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        }else{
+            return self
+        }
+        
+    }
 }
