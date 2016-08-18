@@ -7,39 +7,129 @@
 //
 
 import UIKit
+import Kingfisher
 
 class NewsTableViewController: UITableViewController {
     
-    var API_URL = "http://api.npr.org/query?id=10005&fields=title,teaser,storyDate,byline,image,textWithHtml&dateType=story&output=JSON&numResults=10&apiKey=MDI1ODYyMTQzMDE0NzExMzk0NjdiNzUxYg000"
-    var DataSource:[NewsListItem] = []
-
+//Basic components of api's url
+    private var id = "10005"
+    private var fields = "title,teaser,storyDate,byline,image"
+    private var startNumber = 1
+    //Due to the limit of number of news returned, we have to update the start number to get earlier news(with function loadMoreData()).
+    private var currentStartNumber = 1
+    
+    private var dateType = "story"
+    private var output = "JSON"
+    private var numberOfResults = 5
+    private var apiKey = "MDI1ODYyMTQzMDE0NzExMzk0NjdiNzUxYg000"
+    
+//Both versions of urls are set with function setApiUrl().
+    //The initial url
+    private var API_URL = ""
+    //The updated url, corresponding to var currentStartNumber
+    private var current_API_URL = ""
+    
+//The data source used to initialize table view, initialized with function loadDataSource() and updated with function loadMoreData()
+    private var DataSource = NSMutableArray()
+//The footer and header used to refresh, initialized with function setHeaderRefreshControl() and function setFooterRefreshControl(), respectively.
+    private var footer = MJRefreshAutoNormalFooter()
+    private var header = MJRefreshNormalHeader()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Refreshing...")
-        refreshControl.addTarget(self, action: #selector(NewsTableViewController.loadDataSource), forControlEvents: UIControlEvents())
-        self.refreshControl = refreshControl
-        loadDataSource()
-        self.tableView.estimatedRowHeight = tableView.rowHeight
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.setApiUrl()
+        self.setHeaderRefreshControl()
+        self.header.beginRefreshing()//Begin refreshing and call function loadDataSource()
+        self.setFooterRefreshControl()
+        self.setTableViewRowHeight()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+    func setApiUrl(){
+        API_URL = "http://api.npr.org/query?id=\(id)&fields=\(fields)&startNum=\(startNumber)&dateType=\(dateType)&output=\(output)&numResults=\(numberOfResults)&apiKey=\(apiKey)"
+        current_API_URL = API_URL
+    }
+
+    func setHeaderRefreshControl(){
+        self.header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: #selector(NewsTableViewController.loadDataSource))
+        self.tableView.mj_header = header
+        header.setTitle("Pull down for more :)", forState: MJRefreshState.Idle)
+        header.setTitle("Aight, release me now!", forState: MJRefreshState.Pulling)
+        header.setTitle("I'm workin'...", forState: MJRefreshState.Refreshing)
+    }
+    
+    func setFooterRefreshControl(){
+        self.footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction: #selector(NewsTableViewController.loadMoreData))
+        self.tableView.mj_footer = footer
+        footer.setTitle("Pull up for more :)", forState: MJRefreshState.Idle)
+        footer.setTitle("I'm workin'...", forState: MJRefreshState.Refreshing)
+    }
+    
+    
+    func setTableViewRowHeight(){
+        self.tableView.estimatedRowHeight = tableView.rowHeight
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+    }
+
+
     // MARK: - Table view data source
     
+    
     func loadDataSource(){
-        refreshControl?.beginRefreshing()
+        
+        header.beginRefreshing()
+        
         let url = NSURL(string: API_URL)
         let request = NSURLRequest(URL: url!)
         let LoadQueue = NSOperationQueue()
+        
         NSURLConnection.sendAsynchronousRequest(request, queue: LoadQueue) { (response, data, error) in
         let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
         
         let NewsDataSource = json["list"]!["story"] as! NSArray
+        
+        let currentNewsData = self.loadCurrentNewsData(withNewsDataSource: NewsDataSource)
+        self.DataSource = currentNewsData
+        dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
+
+       }
+        header.endRefreshing()
+    }
+    
+    func loadMoreData(){
+        
+        footer.beginRefreshing()
+        
+        //update the api's url
+        self.currentStartNumber += self.numberOfResults
+        self.current_API_URL = "http://api.npr.org/query?id=\(id)&fields=\(fields)&startNum=\(currentStartNumber)&dateType=\(dateType)&output=\(output)&numResults=\(numberOfResults)&apiKey=\(apiKey)"
+        
+        let url = NSURL(string: current_API_URL)
+        let request = NSURLRequest(URL: url!)
+        let LoadQueue = NSOperationQueue()
+        
+        NSURLConnection.sendAsynchronousRequest(request, queue: LoadQueue) { (response, data, error) in
+            let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+            
+            let NewsDataSource = json["list"]!["story"] as! NSArray
+            let currentNewsData = self.loadCurrentNewsData(withNewsDataSource: NewsDataSource)
+            self.DataSource.addObjectsFromArray(currentNewsData as [AnyObject])
+            dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
+
+        }
+        footer.endRefreshing()
+    }
+
+
+    
+    
+    func loadCurrentNewsData(withNewsDataSource NewsDataSource: NSArray) -> NSMutableArray{
+        let currentNewsData = NSMutableArray()
         
         for currentNews in NewsDataSource{
             let newsitem = NewsListItem()
@@ -51,7 +141,6 @@ class NewsTableViewController: UITableViewController {
             let linkList = currentNews["link"] as! NSArray
             
             for link in linkList{
-                
                 if link["type"] as! NSString == "html"{
                     newsitem.link = link["$text"] as! NSString
                 }
@@ -63,18 +152,18 @@ class NewsTableViewController: UITableViewController {
                 let imageCrop = image["crop"] as! NSArray
                 for imageCropItem in imageCrop{
                     if imageCropItem["type"] as! NSString == "wide"{
-                         newsitem.imageURL = image["crop"]!![2]["src"] as! NSString
+                        newsitem.imageURL = image["crop"]!![2]["src"] as! NSString
                     }
                 }
             }
-                    
-            self.DataSource.append(newsitem)
-            dispatch_async(dispatch_get_main_queue(), {self.tableView.reloadData()})
-       }
-       }
-        refreshControl?.endRefreshing()
+            
+            currentNewsData.addObject(newsitem)
+            
+        }
+        return currentNewsData
     }
 
+    //Initialize table view
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return DataSource.count
     }
@@ -85,24 +174,25 @@ class NewsTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.NewsListIdentifier, forIndexPath: indexPath) as! NewsListTableViewCell
-        let item = DataSource[indexPath.section]
+        let item = DataSource[indexPath.section] as! NewsListItem
+
         cell.NewsTitle.text = item.title as String
         cell.NewsTeaser.text = item.teaser as String
         cell.NewsLink = item.link as String
-        let url = NSURL(string: item.imageURL as String)
-        let request = NSURLRequest(URL: url!)
-        let queue = NSOperationQueue()
-        NSURLConnection.sendAsynchronousRequest(request, queue: queue) { (response, data, error) in
-            let image = UIImage(data: data!)
-            dispatch_async(dispatch_get_main_queue(), {
-                cell.NewsImage.image = image
-                cell.NewsImage.contentMode = UIViewContentMode.ScaleAspectFit
-            })
-        }
 
+        if let url = NSURL(string: item.imageURL as String){
+            cell.spinner?.startAnimating()
+            cell.NewsImage.kf_setImageWithURL(url)
+            if (cell.NewsImage != nil){
+                cell.spinner?.stopAnimating()
+            }
+        }
         return cell
     }
+
+    
     
     // MARK: - Navigation
 
