@@ -20,11 +20,9 @@ class ArtistsTableViewController: UITableViewController, UISplitViewControllerDe
     
     
     
-    
     var indexes=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","#",]
     
-
-    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +42,10 @@ class ArtistsTableViewController: UITableViewController, UISplitViewControllerDe
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
+
 
     // MARK: - Table view data source
     
@@ -108,7 +110,8 @@ class ArtistsTableViewController: UITableViewController, UISplitViewControllerDe
                 artistInfovc.image = UIImage(named: name!)!
                 artistInfovc.name = name!
                 artistInfovc.genres = artistInfoData.artistGenresDictionary[name!]!
-                artistInfovc.intro = artistInfoData.artistIntroDictionary[name!]!
+                artistInfovc.wikiTitle = artistInfoData.artistWikiDictionary[name!]!
+                artistInfovc.channelName = "\(artistsChannelData[name!]!)"
             }
         }
     }
