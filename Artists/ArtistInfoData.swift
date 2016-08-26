@@ -12,18 +12,18 @@ public struct artistInfoData{
     static let artistGenresDictionary: Dictionary<String, String> = [
         "AZ":"a",
         "Biggie":"b",
-        "Chamillionare":"c",
+        "Chamillionaire":"c",
         "Drake":"d",
         "Eminem":"e",
         "Future":"f"
     ]
     
-    static let artistIntroDictionary: Dictionary<String, String> = [
-        "AZ":"a",
-        "Biggie":"b",
-        "Chamillionare":"c",
-        "Drake":"d",
-        "Eminem":"e",
-        "Future":"f"
+    static let artistWikiDictionary: Dictionary<String, String> = [
+        "AZ":"AZ_(rapper)",
+        "Biggie":"The_Notorious_B.I.G.",
+        "Chamillionaire":"Chamillionaire",
+        "Drake":"Drake_(musician)",
+        "Eminem":"Eminem",
+        "Future":"Future_(rapper)"
     ]
 }
