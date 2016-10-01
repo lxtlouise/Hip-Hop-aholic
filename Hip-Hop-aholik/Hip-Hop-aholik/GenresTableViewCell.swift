@@ -9,7 +9,5 @@
 import UIKit
 
 class GenresTableViewCell: UITableViewCell {
-    
-
     @IBOutlet weak var genreName: UILabel!
 }

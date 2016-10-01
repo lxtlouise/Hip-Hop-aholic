@@ -8,21 +8,16 @@
 
 import UIKit
 
-class GenresTableViewController: UITableViewController, UISplitViewControllerDelegate {
+class GenresTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        splitViewController?.delegate = self
+        
+        UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+        let nav = self.navigationController
+        self.changeNavigationBarTextColor(forNavController: nav!)
     }
     
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController, ontoPrimaryViewController primaryViewController: UIViewController) -> Bool {
-        if primaryViewController.contentViewController == self{
-            if let agvc = secondaryViewController.contentViewController as? ArtistsOfGenreTableViewController where agvc.numberOfSections == 0{
-                return true
-            }
-        }
-        return false
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -31,7 +26,6 @@ class GenresTableViewController: UITableViewController, UISplitViewControllerDel
 
     // MARK: - Table view data source
     
-    //initialize table view
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return genresTableData.count
     }
@@ -43,21 +37,21 @@ class GenresTableViewController: UITableViewController, UISplitViewControllerDel
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.GenresIdentifier, forIndexPath: indexPath) as! GenresTableViewCell
-        cell.genreName.text = genresTableData[indexPath.section]
+        
+        cell.genreName.text = genresTableData.sort()[indexPath.section]
         return cell
     }
     
     
     // MARK: - Navigation
-    // Segue from Genres to ArtistsOfGenre
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardIdentifiers.ShowArtistsOfGenreIdentifier{
             if let agvc = segue.destinationViewController.contentViewController as? ArtistsOfGenreTableViewController{
                 let genreName = (sender as? GenresTableViewCell)?.genreName.text
                 let item = artistsOfGenreDictionary[genreName!]!
                 agvc.navigationItem.title = genreName
-                agvc.numberOfSections = item.count
                 agvc.artistsOfGenreTableData = item
+                agvc.wikiTitle = genresWikiDictionary[genreName!]!
             }
         }
         
