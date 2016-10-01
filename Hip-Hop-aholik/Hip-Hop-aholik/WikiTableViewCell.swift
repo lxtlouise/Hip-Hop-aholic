@@ -15,12 +15,13 @@ class WikiTableViewCell: UITableViewCell {
     
     @IBOutlet weak var videoTitle: UILabel!
     
-    @IBAction func youtubeLogo(sender: UIButton) {
+    @IBAction private func youtubeLogo(sender: UIButton) {
         if let id = videoId{
             let url = "https://www.youtube.com/watch?v=\(id)"
             UIApplication.sharedApplication().openURL(NSURL(string: url)!)
         }
     }
+    
     var videoId: String!
     var channelTag: String!
     
