@@ -14,9 +14,17 @@ public struct StoryboardIdentifiers{
     static let GenresIdentifier = "Genre"
     static let ShowArtistsOfGenreIdentifier = "ShowArtistsOfGenre"
     static let ArtistsOfGenreIdentifier = "ArtistsOfGenre"
-    static let ShowArtistOfGenreInfoIdentifier = "ArtistOfGenreInfo"
+    static let ShowArtistOfGenreInfoIdentifier = "ShowArtistOfGenreInfo"
     static let NewsListIdentifier = "News"
     static let ShowNewsContentIdentifier = "ShowNewsContent"
+    static let UrlIdentifier = "Url"
+    static let PlaylistIdentifier = "Playlist"
+    static let ShowPlayerViewIdentifier = "ShowPlayerView"
+    static let ShowHelpIdentifier = "ShowHelp"
+    static let WikiPlaylistIdentifier = "WikiPlaylist"
+    static let ShowWikiIdentifier = "ShowWiki"
+    static let GenreIntroductionIdentifier = "GenreIntroduction"
+    static let HelpInformationIdentifier = "HelpInformation"
 }
 
 
