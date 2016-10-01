@@ -8,9 +8,10 @@
 
 import Foundation
 
-class NewsListItem:NSObject{
-    var imageURL = NSString()
-    var title = NSString()
-    var teaser = NSString()
-    var link = NSString()
+class NewsListItem{
+    var imageURL: String!
+    var title: String!
+    var teaser: String!
+    var link: String!
+    var date: String!
 }
