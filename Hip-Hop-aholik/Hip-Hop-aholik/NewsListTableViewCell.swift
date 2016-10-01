@@ -10,12 +10,12 @@ import UIKit
 
 class NewsListTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var NewsImage: UIImageView!
-    @IBOutlet weak var NewsTitle: UILabel!
-    @IBOutlet weak var NewsTeaser: UILabel!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    @IBOutlet weak var newsImage: UIImageView!
+    @IBOutlet weak var newsTitle: UILabel!
+    @IBOutlet weak var newsTeaser: UILabel!
+    @IBOutlet weak var newsStoryDate: UILabel!
     
-    var NewsLink = String()
+    var newsLink: String!
     
 
     override func setSelected(selected: Bool, animated: Bool) {
