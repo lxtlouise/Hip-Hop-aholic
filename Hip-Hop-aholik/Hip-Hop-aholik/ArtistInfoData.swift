@@ -91,7 +91,7 @@ public var artistInfoDictionary: Dictionary<String, ArtistItem> = [
     "Snoop Dogg": ArtistItem(withChannelName: "SnoopDoggVEVO", andChannelID: nil, andGenres: "s", andWikiTitle: "Snoop_Dogg"),
     "Tech N9ne": ArtistItem(withChannelName: "TechN9neVEVO", andChannelID: nil, andGenres: "t", andWikiTitle: "Tech_N9ne"),
     "The Game": ArtistItem(withChannelName: "TheGameVEVO", andChannelID: nil, andGenres: "t", andWikiTitle: "The_Game_(rapper)"),
-    "The lonely island": ArtistItem(withChannelName: "thelonelyisland", andChannelID: nil, andGenres: "Alternative hip hop, Comedy hip hop", andWikiTitle: "The_Lonely_Island"),
+    "The Lonely Island": ArtistItem(withChannelName: "thelonelyisland", andChannelID: nil, andGenres: "Alternative hip hop, Comedy hip hop", andWikiTitle: "The_Lonely_Island"),
     "The Pharcyde": ArtistItem(withChannelName: nil, andChannelID: "UCPBVpB_roy80QRKWi4vwRVQ", andGenres: "Alternative hip hop", andWikiTitle: "The_Pharcyde"),
     "The Roots": ArtistItem(withChannelName: "TheRootsVEVO", andChannelID: nil, andGenres: "Jazz Rap", andWikiTitle: "The_Roots"),
     "The Sugarhill Gang": ArtistItem(withChannelName: nil, andChannelID: "UCU0JJCdCVXuFY0wlwn4iYDg", andGenres: "Old-school hip hop", andWikiTitle: "The_Sugarhill_Gang"),
@@ -109,6 +109,4 @@ public var artistInfoDictionary: Dictionary<String, ArtistItem> = [
     "2 Chainz": ArtistItem(withChannelName: "2ChainzVEVO", andChannelID: nil, andGenres: "#", andWikiTitle: "2_Chainz"),
     "2pac": ArtistItem(withChannelName: "2PacVEVO", andChannelID: nil, andGenres: "#", andWikiTitle: "Tupac_Shakur"),
     "50cent": ArtistItem(withChannelName: "50CentVEVO", andChannelID: nil, andGenres: "#", andWikiTitle: "50_Cent"),
-    //"": ArtistItem(withChannelName: <#T##String?#>, andChannelID: <#T##String?#>, andGenres: <#T##String#>, andWikiTitle: <#T##String#>),
-    
 ]
