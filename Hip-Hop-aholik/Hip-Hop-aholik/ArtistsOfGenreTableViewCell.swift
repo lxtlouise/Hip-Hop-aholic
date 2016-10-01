@@ -9,8 +9,15 @@
 import UIKit
 
 class ArtistsOfGenreTableViewCell: UITableViewCell {
-    
-    
     @IBOutlet weak var artistOfGenreImage: UIImageView!
     @IBOutlet weak var artistOfGenreName: UILabel!
+    
+    @IBAction private func youtubeLog(sender: UIButton) {
+        if let url = channelUrl{
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    var playlistId: String!
+    var imageUrl: NSURL!
+    var channelUrl: NSURL!
 }
