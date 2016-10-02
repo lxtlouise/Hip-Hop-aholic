@@ -20,7 +20,7 @@ class WikiPlayerViewController: UIViewController, YTPlayerViewDelegate {
     ]
     
     private let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
-
+    
     @IBAction private func youtubeLogo(sender: UIButton) {
         if let id = videoId{
             let urlString = "https://www.youtube.com/watch?v=\(id)"
@@ -46,7 +46,7 @@ class WikiPlayerViewController: UIViewController, YTPlayerViewDelegate {
         
         playerView.delegate = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -64,15 +64,14 @@ class WikiPlayerViewController: UIViewController, YTPlayerViewDelegate {
     
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardIdentifiers.ShowHelpIdentifier{
             segue.destinationViewController.contentViewController as! HelpViewController
             
-            
         }
     }
     
-
+    
 }

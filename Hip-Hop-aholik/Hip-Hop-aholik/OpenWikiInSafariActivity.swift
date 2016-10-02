@@ -47,5 +47,5 @@ class WikiSafari: UIActivity{
         }
         return false
     }
-
+    
 }

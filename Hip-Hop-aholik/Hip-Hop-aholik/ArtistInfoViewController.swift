@@ -93,7 +93,7 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         
         self.spinner.alpha = 0
         self.spinner.startAnimating()
-
+        
         self.getIntroduction()
         self.setFooterRefreshControl()
         self.setHeaderRefreshControl()
@@ -180,17 +180,17 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
             performGetRequest(url) { (data, HTTPStatusCode, error) in
                 if HTTPStatusCode == 200 && error == nil{
                     do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
-                
-                let playlistDataSource = json["items"] as! NSArray
-                let playlistDataArray = self.loadPlaylistDataArray(withPlaylistDataSource: playlistDataSource)
-                self.videosArray.appendContentsOf(playlistDataArray)
-                if let pageToken = json["nextPageToken"] as! String?{
-                    self.nextPageToken = pageToken
-                }else{
-                    self.nextPageToken = ""
-                }
-                
-                dispatch_async(dispatch_get_main_queue()) {self.playlistTableView.reloadData()}
+                        
+                        let playlistDataSource = json["items"] as! NSArray
+                        let playlistDataArray = self.loadPlaylistDataArray(withPlaylistDataSource: playlistDataSource)
+                        self.videosArray.appendContentsOf(playlistDataArray)
+                        if let pageToken = json["nextPageToken"] as! String?{
+                            self.nextPageToken = pageToken
+                        }else{
+                            self.nextPageToken = ""
+                        }
+                        
+                        dispatch_async(dispatch_get_main_queue()) {self.playlistTableView.reloadData()}
                     }catch{
                         print(error)
                     }
@@ -230,11 +230,11 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         performGetRequest(url) { (data, HTTPStatusCode, error) in
             if HTTPStatusCode == 200 && error == nil{
                 do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
-                
-                let pageIdDictionay = json["query"]!["pages"] as! NSDictionary
-                let pageIdArray = pageIdDictionay.allKeys
-                let pageId = pageIdArray[0] as! String
-                self.artistInfoIntroduction.text = "\(json["query"]!["pages"]!![pageId]!!["extract"] as! String)\n\n\nClick the link below to see the original page. :)\nhttps://en.wikipedia.org/wiki/\(self.wikiTitle)\nClick the link below to see the revision history. :)\nhttps://en.wikipedia.org/w/index.php?title=\(self.wikiTitle)&action=history"
+                    
+                    let pageIdDictionay = json["query"]!["pages"] as! NSDictionary
+                    let pageIdArray = pageIdDictionay.allKeys
+                    let pageId = pageIdArray[0] as! String
+                    self.artistInfoIntroduction.text = "\(json["query"]!["pages"]!![pageId]!!["extract"] as! String)\n\n\nClick the link below to see the original page. :)\nhttps://en.wikipedia.org/wiki/\(self.wikiTitle)\nClick the link below to see the revision history. :)\nhttps://en.wikipedia.org/w/index.php?title=\(self.wikiTitle)&action=history"
                 }catch{
                     print(error)
                 }

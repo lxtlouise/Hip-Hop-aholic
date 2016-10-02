@@ -10,5 +10,4 @@ import Foundation
 
 let helpInfoArray = [
     "1. Why an error occured when I tried to play the video?\n\n Your IP address may not be located in America. Try changing your IP address with a VPN."
-    
 ]

@@ -53,12 +53,12 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let nav = self.navigationController
         self.changeNavigationBarTextColor(forNavController: nav!)
         
-                self.searchBar.delegate = self
+        self.searchBar.delegate = self
         self.indicatorBackgroundView.layer.masksToBounds = true
         self.indicatorBackgroundView.layer.cornerRadius = 10
         self.alertInformation.layer.masksToBounds = true
         self.alertInformation.layer.cornerRadius = 10
-
+        
         self.spinner.startAnimating()
         self.setHeaderRefreshControl()
         self.setFooterRefreshControl()
@@ -117,15 +117,15 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.alertInformation.hidden = false
                 self.indicatorBackgroundView.hidden = true
                 self.header.endRefreshing()
-
+                
             }
             self.videosArray.sortInPlace({$0.publishedDate > $1.publishedDate})
             self.filteredVideosArray = self.videosArray
             dispatch_async(dispatch_get_main_queue()) {self.wikiTableView.reloadData()}
             
         }
-    
-    
+        
+        
         performGetRequest(rapping_manual_url) { (data, HTTPStatusCode, error) in
             if HTTPStatusCode == 200 && error == nil{
                 do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
@@ -166,21 +166,21 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
                 performGetRequest(url) { (data, HTTPStatusCode, error) in
                     if HTTPStatusCode == 200 && error == nil{
                         do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
-                        
-                        let playlistDataSource = json["items"] as! NSArray
-                        let playlistDataArray = self.loadPlaylistDataArray(withPlaylistDataSource: playlistDataSource)
-                        temporaryVideosArray.appendContentsOf(playlistDataArray)
-                        if let pageToken = json["nextPageToken"] as! String?{
-                            self.nextPageToken_Genius = pageToken
-                        }else{
-                            self.nextPageToken_Genius = ""
-                        }
-                        temporaryVideosArray.sortInPlace({$0.publishedDate > $1.publishedDate})
-                        self.videosArray.appendContentsOf(temporaryVideosArray)
-                        self.filteredVideosArray.appendContentsOf(temporaryVideosArray)
-                        
-                        
-                        dispatch_async(dispatch_get_main_queue()) {self.wikiTableView.reloadData()}
+                            
+                            let playlistDataSource = json["items"] as! NSArray
+                            let playlistDataArray = self.loadPlaylistDataArray(withPlaylistDataSource: playlistDataSource)
+                            temporaryVideosArray.appendContentsOf(playlistDataArray)
+                            if let pageToken = json["nextPageToken"] as! String?{
+                                self.nextPageToken_Genius = pageToken
+                            }else{
+                                self.nextPageToken_Genius = ""
+                            }
+                            temporaryVideosArray.sortInPlace({$0.publishedDate > $1.publishedDate})
+                            self.videosArray.appendContentsOf(temporaryVideosArray)
+                            self.filteredVideosArray.appendContentsOf(temporaryVideosArray)
+                            
+                            
+                            dispatch_async(dispatch_get_main_queue()) {self.wikiTableView.reloadData()}
                         }catch{
                             print(error)
                         }
@@ -260,7 +260,7 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
         self.videosArray.removeAll()
         self.getPlaylistDetails()
     }
-
+    
     // MARK: - Table view data source
     
     

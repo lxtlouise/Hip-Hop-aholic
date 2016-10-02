@@ -48,7 +48,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
     }
     var artistsOfGenreTableData = [String]()
     
-   
+    
     private var channelDataArray = [ChannelData]()
     
     private var genreIntroduction: String!
@@ -65,10 +65,10 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
     private var header = MJRefreshNormalHeader()
     
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         let nav = self.navigationController
         self.changeNavigationBarTextColor(forNavController: nav!)
@@ -83,7 +83,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         self.setHeaderRefreshControl()
         self.header.beginRefreshing()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -96,55 +96,55 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         header.setTitle("Aight, release me now!", forState: MJRefreshState.Pulling)
         header.setTitle("I'm workin'...", forState: MJRefreshState.Refreshing)
     }
-
+    
     
     
     private func getChannelDetails(){
-            for i in 0..<artistsOfGenreTableData.count{
-                let name = artistsOfGenreTableData[i]
-                
-                if let channelName = artistInfoDictionary[name]?.artistChannelName{
-                    self.Youtube_Channel_URL = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&forUsername=\(channelName)&key=\(apiKey)"
-                }else if let channelID = artistInfoDictionary[name]?.artistChannelID{
-                    self.Youtube_Channel_URL = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=\(channelID)&key=\(apiKey)"
-                }
-
-               
-                let url = NSURL(string: Youtube_Channel_URL)
-                
-                performGetRequest(url) { (data, HTTPStatusCode, error) in
-                    if HTTPStatusCode == 200 && error == nil{
-                        do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
-                            
-                            let channelDataSource = (json["items"] as! NSArray)[0] as! NSDictionary
-                            let channelData = ChannelData()
-                            channelData.channelName = (channelDataSource["snippet"]!["localized"]!!["title"] as? String)!
-                            channelData.thumbnails = channelDataSource["snippet"]!["thumbnails"] as! NSDictionary
-                            channelData.playlistId = channelDataSource["contentDetails"]!["relatedPlaylists"]!!["uploads"] as! String
-                            channelData.artistName = name
-                            if let channelName = artistInfoDictionary[name]?.artistChannelName{
-                                channelData.channelUrl = NSURL(string:"https://www.youtube.com/user/\(channelName)")
-                            }else if let channelID = artistInfoDictionary[name]?.artistChannelID{
-                                channelData.channelUrl = NSURL(string:"https://www.youtube.com/channel/\(channelID)")
-                            }
-
-                            self.channelDataArray.append(channelData)
-                            self.channelDataArray.sortInPlace({$0.artistName.lowercaseString < $1.artistName.lowercaseString})
-                        }catch{
-                            print(error)
+        for i in 0..<artistsOfGenreTableData.count{
+            let name = artistsOfGenreTableData[i]
+            
+            if let channelName = artistInfoDictionary[name]?.artistChannelName{
+                self.Youtube_Channel_URL = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&forUsername=\(channelName)&key=\(apiKey)"
+            }else if let channelID = artistInfoDictionary[name]?.artistChannelID{
+                self.Youtube_Channel_URL = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails,snippet&id=\(channelID)&key=\(apiKey)"
+            }
+            
+            
+            let url = NSURL(string: Youtube_Channel_URL)
+            
+            performGetRequest(url) { (data, HTTPStatusCode, error) in
+                if HTTPStatusCode == 200 && error == nil{
+                    do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
+                        
+                        let channelDataSource = (json["items"] as! NSArray)[0] as! NSDictionary
+                        let channelData = ChannelData()
+                        channelData.channelName = (channelDataSource["snippet"]!["localized"]!!["title"] as? String)!
+                        channelData.thumbnails = channelDataSource["snippet"]!["thumbnails"] as! NSDictionary
+                        channelData.playlistId = channelDataSource["contentDetails"]!["relatedPlaylists"]!!["uploads"] as! String
+                        channelData.artistName = name
+                        if let channelName = artistInfoDictionary[name]?.artistChannelName{
+                            channelData.channelUrl = NSURL(string:"https://www.youtube.com/user/\(channelName)")
+                        }else if let channelID = artistInfoDictionary[name]?.artistChannelID{
+                            channelData.channelUrl = NSURL(string:"https://www.youtube.com/channel/\(channelID)")
                         }
-                    }else{
+                        
+                        self.channelDataArray.append(channelData)
+                        self.channelDataArray.sortInPlace({$0.artistName.lowercaseString < $1.artistName.lowercaseString})
+                    }catch{
                         print(error)
-                        print(HTTPStatusCode)
-                        self.alertInformation.hidden = false
-                        self.indicatorBackgroundView.hidden = true
-                        self.header.endRefreshing()
-
                     }
-                    dispatch_async(dispatch_get_main_queue()) {self.artistsOfGenreTableView.reloadData()}
+                }else{
+                    print(error)
+                    print(HTTPStatusCode)
+                    self.alertInformation.hidden = false
+                    self.indicatorBackgroundView.hidden = true
+                    self.header.endRefreshing()
+                    
                 }
+                dispatch_async(dispatch_get_main_queue()) {self.artistsOfGenreTableView.reloadData()}
             }
         }
+    }
     
     
     
@@ -186,15 +186,15 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         }
         
     }
-
+    
     func refreshWikiAndChannelDetails(){
         self.alertInformation.hidden = true
         self.channelDataArray.removeAll()
         self.getChannelDetails()
         self.getGenreWiki()
     }
-
-
+    
+    
     func openActivityController(sender: UIButton){
         let acts = [WikiSafari()]
         if let url = NSURL(string: wikiPedia_URL){
@@ -206,19 +206,19 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
     }
-
     
-
     
-
+    
+    
+    
     // MARK: - Table view data source
     
     //intialize table view
-     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0{
             return 1
         }else{
@@ -226,10 +226,10 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         }
         
     }
-
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-     
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
         if indexPath.section == 0{
             let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.GenreIntroductionIdentifier, forIndexPath: indexPath) as! GenreWikiTableViewCell
             let intro = genreIntroduction
@@ -263,7 +263,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
     }
     
     
-     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Introduction"
         }else{
@@ -271,7 +271,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0{
             return "Click the Intro to expand/collapse"
         }else{
@@ -279,21 +279,21 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.whiteColor()
         let sectionFooter = view as! UITableViewHeaderFooterView
         sectionFooter.textLabel?.textColor = UIColor.grayColor()
         sectionFooter.textLabel?.font = UIFont.systemFontOfSize(15.0)
     }
-     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.blackColor()
         let sectionHeader = view as! UITableViewHeaderFooterView
         sectionHeader.textLabel?.textColor = UIColor.cyanColor()
         
-    
+        
     }
     
-     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if selectedIndexPath != nil && indexPath == selectedIndexPath{
             
             tableView.estimatedRowHeight = UITableViewAutomaticDimension
@@ -305,7 +305,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
-     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0{
             if selectedIndexPath != nil && selectedIndexPath == indexPath{
                 selectedIndexPath = nil
@@ -316,15 +316,15 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
             self.artistsOfGenreTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             self.artistsOfGenreTableView.endUpdates()
         }
-            
+        
         
     }
     
-     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100
     }
     // MARK: - Navigation
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardIdentifiers.ShowArtistOfGenreInfoIdentifier{
             if let artistInfovc = segue.destinationViewController.contentViewController as? ArtistInfoViewController{
@@ -347,49 +347,49 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
                 
                 let finalGenresResult = String(genres.characters.dropLast(2))
                 artistInfovc.genres = finalGenresResult
-
+                
                 artistInfovc.playlistId = (sender as? ArtistsOfGenreTableViewCell)!.playlistId
                 artistInfovc.wikiTitle = artistInfoDictionary[name!]!.artistWikiTitle
             }
         }
     }
-       
-
-
+    
+    
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+     if editingStyle == .Delete {
+     // Delete the row from the data source
+     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+     } else if editingStyle == .Insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-   
+     // Override to support conditional rearranging of the table view.
+     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
+    
 }
