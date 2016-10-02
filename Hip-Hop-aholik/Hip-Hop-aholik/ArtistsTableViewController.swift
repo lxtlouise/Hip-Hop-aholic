@@ -30,7 +30,7 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         didSet{
             self.indicatorBackgroundView.layer.masksToBounds = true
             self.indicatorBackgroundView.layer.cornerRadius = 10
-
+            
         }
     }
     
@@ -64,7 +64,6 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         self.spinner.startAnimating()
         
         self.header.beginRefreshing()
-        
         
     }
     
@@ -141,7 +140,7 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-       
+    
     func refreshChannelDetails(){
         self.alertInformation.hidden = true
         self.channelDataArray.removeAll()
@@ -160,7 +159,7 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
-     func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
+    func tableView(tableView: UITableView, sectionForSectionIndexTitle title: String, atIndex index: Int) -> Int {
         var  tableIndex: Int = 0
         
         for character in indexes{
@@ -172,20 +171,20 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         return 0
     }
     
-     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return self.channelDataArray.count
     }
     
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.channelDataArray[section].count
     }
     
-     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return indexes[section]
     }
     
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.ArtistsIdentifier, forIndexPath: indexPath) as! ArtistsTableViewCell
         
         let channelDataItem = self.channelDataArray[indexPath.section][indexPath.row]
@@ -205,11 +204,11 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         self.header.endRefreshing()
         self.spinner.stopAnimating()
         self.indicatorBackgroundView.hidden = true
-
+        
         return cell
     }
     
-     func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+    func tableView(tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         view.tintColor = UIColor.blackColor()
         let sectionHeader = view as! UITableViewHeaderFooterView
         sectionHeader.textLabel?.textColor = UIColor.cyanColor()

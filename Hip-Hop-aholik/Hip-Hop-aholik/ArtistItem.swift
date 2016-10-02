@@ -9,7 +9,7 @@
 import Foundation
 
 public class ArtistItem{
-   
+    
     var artistChannelName: String!
     var artistChannelID: String!
     var artistGenres: String!
