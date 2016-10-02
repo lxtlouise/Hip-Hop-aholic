@@ -83,7 +83,7 @@ public var artistInfoDictionary: Dictionary<String, ArtistItem> = [
     "Rakim": ArtistItem(withChannelName: nil, andChannelID: "UCFMS1sbij1WaZzZpnBDCs3A", andGenres: "", andWikiTitle: "Rakim"),
     "MC Ren": ArtistItem(withChannelName: nil, andChannelID: "UCYycuLgD0x-UZB7Bm7l8pYw", andGenres: "r", andWikiTitle: "MC_Ren"),
     "Rick Ross": ArtistItem(withChannelName: "RickRossVEVO", andChannelID: nil, andGenres: "r", andWikiTitle: "Rick_Ross"),
-    "Run–D.M.C.": ArtistItem(withChannelName: "RUNDMCVEVO", andChannelID: nil, andGenres: "r", andWikiTitle: "Run–D.M.C."),
+    "Run–D.M.C.": ArtistItem(withChannelName: "RUNDMCVEVO", andChannelID: nil, andGenres: "r", andWikiTitle: "Run%E2%80%93D.M.C."),
     "Salt-N-Pepa": ArtistItem(withChannelName: "SaltNPepaVEVO", andChannelID: nil, andGenres: "s", andWikiTitle: "Salt-N-Pepa"),
     "Scarface": ArtistItem(withChannelName: nil, andChannelID: "UC9v3AUfaYiap8vPHN5lyOYQ", andGenres: "s", andWikiTitle: "Scarface_(rapper)"),
     "DJ Shadow": ArtistItem(withChannelName: "DJShadowVEVO", andChannelID: nil, andGenres: "Instrumental hip hop, Trip hop, Turntablism", andWikiTitle: "DJ_Shadow"),
