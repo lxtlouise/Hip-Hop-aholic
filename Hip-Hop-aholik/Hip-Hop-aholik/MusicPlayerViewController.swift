@@ -9,7 +9,7 @@
 import UIKit
 
 class MusicPlayerViewController: UIViewController, YTPlayerViewDelegate {
-
+    
     @IBOutlet weak var playerView: YTPlayerView!
     
     private let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
@@ -29,7 +29,7 @@ class MusicPlayerViewController: UIViewController, YTPlayerViewDelegate {
         "origin":"http://www.youtube.com",
         "playsinline":"1",
         "showinfo":"0"
-        ]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,7 @@ class MusicPlayerViewController: UIViewController, YTPlayerViewDelegate {
         self.playerView.delegate = self
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -53,30 +53,21 @@ class MusicPlayerViewController: UIViewController, YTPlayerViewDelegate {
         self.navigationItem.leftItemsSupplementBackButton = true
         self.navigationItem.setLeftBarButtonItem(barButton, animated: true)
     }
-
+    
     
     func playerViewDidBecomeReady(playerView: YTPlayerView) {
         self.spinner.stopAnimating()
     }
     
     
-
+    
     
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == StoryboardIdentifiers.ShowHelpIdentifier{
             segue.destinationViewController.contentViewController as! HelpViewController
-                
-            
         }
     }
     
-    /*override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
-        if identifier == StoryboardIdentifiers.ShowHelpIdentifier{
-            
-        }
-    }*/
-    
-
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class HelpViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-
+    
     @IBOutlet weak var helpInfoTableView: UITableView!
     
     
@@ -20,9 +20,9 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.helpInfoTableView?.dataSource = self
         self.helpInfoTableView.estimatedRowHeight = helpInfoTableView.rowHeight
         self.helpInfoTableView.rowHeight = UITableViewAutomaticDimension
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -38,15 +38,15 @@ class HelpViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.helpInformation.text = helpInfo
         return cell
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
