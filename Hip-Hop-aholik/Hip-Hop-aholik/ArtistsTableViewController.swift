@@ -115,8 +115,18 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
                             }else if let channelID = artistInfoDictionary[name]?.artistChannelID{
                                 channelData.channelUrl = NSURL(string:"https://www.youtube.com/channel/\(channelID)")
                             }
+                            let contained = self.channelDataArray[i].contains{(element) -> Bool in
+                                if element.artistName == channelData.artistName{
+                                    return true
+                                }else{
+                                    return false
+                                }
+                            }
+                            if !contained{
+                                self.channelDataArray[i].append(channelData)
+                            }
                             
-                            self.channelDataArray[i].append(channelData)
+                            
                             self.channelDataArray[i].sortInPlace({$0.artistName.lowercaseString < $1.artistName.lowercaseString})
                             dispatch_async(dispatch_get_main_queue()) {self.artistsTableView.reloadData()}
                         }catch {
@@ -125,7 +135,6 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
                         }
                     }else{
                         print(error?.description)
-                        
                         print(HTTPStatusCode)
                         self.alertInformation.hidden = false
                         self.indicatorBackgroundView.hidden = true
@@ -144,8 +153,8 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
     func refreshChannelDetails(){
         self.alertInformation.hidden = true
         self.channelDataArray.removeAll()
+        self.artistsTableView.reloadData()
         self.getChannelDetails()
-        
     }
     
     
@@ -191,7 +200,7 @@ class ArtistsTableViewController: UIViewController, UITableViewDelegate, UITable
         
         if let imageUrl = NSURL(string: channelDataItem.thumbnails["medium"]!["url"] as! String){
             cell.artistImage.kf_setImageWithURL(imageUrl)
-            dispatch_async(dispatch_get_main_queue()) {cell.artistImage.kf_setImageWithURL(imageUrl)}
+            cell.artistImage.kf_setImageWithURL(imageUrl)
             cell.imageUrl = imageUrl
         }
         cell.artistName.text = channelDataItem.artistName

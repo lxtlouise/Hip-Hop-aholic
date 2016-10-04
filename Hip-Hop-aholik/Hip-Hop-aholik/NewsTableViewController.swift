@@ -24,6 +24,7 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
     
     private var newsDataSource = [NewsListItem]()
     
+    
     @IBOutlet weak var newsListTableView: UITableView!{
         didSet{
             self.newsListTableView?.delegate = self
@@ -50,17 +51,17 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
         }
     }
     private var header = MJRefreshNormalHeader()
-
+    
     
     private var footer = MJRefreshAutoNormalFooter()
     
-        
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NSThread.sleepForTimeInterval(2.0)
-
+        
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
         let nav = self.navigationController
         UITabBar.appearance().backgroundColor = UIColor.blackColor()
@@ -70,7 +71,6 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
         self.setFooterRefreshControl()
         
         self.spinner.startAnimating()
-        
         self.header.beginRefreshing()
         
         self.setTableViewRowHeight()
@@ -108,6 +108,7 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
     
     
     func getNewsDataSource(){
+        self.currentStartNumber = 1
         let NPR_URL = "http://api.npr.org/query?id=\(id)&fields=\(fields)&startNum=\(startNumber)&dateType=\(dateType)&output=\(output)&numResults=\(numberOfResults)&apiKey=\(apiKey)"
         
         let url = NSURL(string: NPR_URL)
@@ -116,9 +117,10 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
             if HTTPStatusCode == 200 && error == nil{
                 do{let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
                     
-                    let NewsDataSource = json["list"]!["story"] as! NSArray
+                    let DataSource = json["list"]!["story"] as! NSArray
                     
-                    let currentNewsData = self.loadCurrentNewsData(withNewsDataSource: NewsDataSource)
+                    let currentNewsData = self.loadCurrentNewsData(withNewsDataSource: DataSource)
+                    //self.newsDataSource.removeAll()
                     self.newsDataSource = currentNewsData
                     dispatch_async(dispatch_get_main_queue(), {self.newsListTableView.reloadData()})
                 }catch{
@@ -126,7 +128,6 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
                 }
             }else{
                 print(error!.description)
-                
                 print(HTTPStatusCode)
                 self.alertInformation.hidden = false
                 self.indicatorBackgroundView.hidden = true
@@ -138,8 +139,6 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
     }
     
     func getMoreNewsData(){
-        
-        footer.beginRefreshing()
         
         //update the api's url
         self.currentStartNumber += self.numberOfResults
@@ -166,6 +165,8 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
                 self.header.endRefreshing()
             }
         }
+        
+        self.alertInformation.alpha = 0
         
         
     }
@@ -209,25 +210,26 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
     
     
     func refreshNewsList(){
+        self.indicatorBackgroundView.hidden = false
+        self.spinner.startAnimating()
         self.alertInformation.hidden = true
-        self.newsDataSource.removeAll()
         self.getNewsDataSource()
     }
-
-        
+    
+    
     
     //MARK: - Table view data source
     
-     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.newsDataSource.count
     }
     
     
-     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier(StoryboardIdentifiers.NewsListIdentifier, forIndexPath: indexPath) as! NewsListTableViewCell
         let item = newsDataSource[indexPath.row]
@@ -241,9 +243,9 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
             cell.newsImage.kf_showIndicatorWhenLoading = true
             cell.newsImage.kf_indicator?.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
             cell.newsImage.kf_indicator?.color = UIColor.grayColor()
-        
-            dispatch_async(dispatch_get_main_queue()) {cell.newsImage.kf_setImageWithURL(url)}
+            cell.newsImage.kf_setImageWithURL(url)
         }
+        
         self.header.endRefreshing()
         self.footer.endRefreshing()
         self.spinner.stopAnimating()
@@ -251,6 +253,8 @@ class NewsTableViewController: UIViewController, UITabBarDelegate, UITableViewDe
         
         return cell
     }
+    
+    
     
     
     
