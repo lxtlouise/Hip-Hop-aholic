@@ -128,7 +128,18 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
                             channelData.channelUrl = NSURL(string:"https://www.youtube.com/channel/\(channelID)")
                         }
                         
-                        self.channelDataArray.append(channelData)
+                        let contained = self.channelDataArray.contains{(element) -> Bool in
+                            if element.artistName == channelData.artistName{
+                                return true
+                            }else{
+                                return false
+                            }
+                            
+                        }
+                        if !contained{
+                            self.channelDataArray.append(channelData)
+                        }
+                        
                         self.channelDataArray.sortInPlace({$0.artistName.lowercaseString < $1.artistName.lowercaseString})
                     }catch{
                         print(error)
@@ -190,6 +201,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
     func refreshWikiAndChannelDetails(){
         self.alertInformation.hidden = true
         self.channelDataArray.removeAll()
+        self.artistsOfGenreTableView.reloadData()
         self.getChannelDetails()
         self.getGenreWiki()
     }
@@ -200,7 +212,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
         if let url = NSURL(string: wikiPedia_URL){
             let objectsToShare = [url]
             let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: acts)
-            activityVC.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypePrint, UIActivityTypeAssignToContact]
+            activityVC.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeMail, UIActivityTypeCopyToPasteboard, UIActivityTypeOpenInIBooks, UIActivityTypeSaveToCameraRoll, UIActivityTypeMessage]
             
             activityVC.popoverPresentationController?.sourceView = sender
             self.presentViewController(activityVC, animated: true, completion: nil)
@@ -213,7 +225,6 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
     
     // MARK: - Table view data source
     
-    //intialize table view
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
@@ -243,7 +254,7 @@ class ArtistsOfGenreTableViewController: UIViewController, UITableViewDelegate, 
             
             if let imageUrl = NSURL(string: channelDataItem.thumbnails["medium"]!["url"] as! String){
                 cell.imageUrl = imageUrl
-                dispatch_async(dispatch_get_main_queue()) {cell.artistOfGenreImage.kf_setImageWithURL(imageUrl)}
+                cell.artistOfGenreImage.kf_setImageWithURL(imageUrl)
                 cell.artistOfGenreImage.kf_showIndicatorWhenLoading = true
             }
             

@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class WikiTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class WikiTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate {
     
     
     @IBOutlet weak var searchBar: UISearchBar!
@@ -58,6 +58,7 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
         self.indicatorBackgroundView.layer.cornerRadius = 10
         self.alertInformation.layer.masksToBounds = true
         self.alertInformation.layer.cornerRadius = 10
+        
         
         self.spinner.startAnimating()
         self.setHeaderRefreshControl()
@@ -175,10 +176,10 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
                             }else{
                                 self.nextPageToken_Genius = ""
                             }
+                            
                             temporaryVideosArray.sortInPlace({$0.publishedDate > $1.publishedDate})
                             self.videosArray.appendContentsOf(temporaryVideosArray)
                             self.filteredVideosArray.appendContentsOf(temporaryVideosArray)
-                            
                             
                             dispatch_async(dispatch_get_main_queue()) {self.wikiTableView.reloadData()}
                         }catch{
@@ -250,7 +251,17 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
             videoitem.videoId = video["snippet"]!!["resourceId"]!!["videoId"] as! String
             videoitem.publishedDate = video["snippet"]!!["publishedAt"] as! String
             videoitem.channelTag = "#\(video["snippet"]!!["channelTitle"] as! String)"
-            playlistDataArray.append(videoitem)
+            let contained = self.videosArray.contains{(element) -> Bool in
+                if element.videoId == videoitem.videoId{
+                    return true
+                }else{
+                    return false
+                }
+            }
+            if !contained{
+                playlistDataArray.append(videoitem)
+            }
+            
         }
         return playlistDataArray
     }
@@ -258,6 +269,7 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
     func refreshPlaylistDetails(){
         self.alertInformation.hidden = true
         self.videosArray.removeAll()
+        self.wikiTableView.reloadData()
         self.getPlaylistDetails()
     }
     
@@ -274,7 +286,7 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
         let item = self.filteredVideosArray[indexPath.row]
         cell.videoTitle.text = item.videoTitle
         if let imageUrl = NSURL(string: item.videoThumbnails["medium"]!["url"] as! String){
-            dispatch_async(dispatch_get_main_queue()) {cell.videoImage.kf_setImageWithURL(imageUrl)}
+            cell.videoImage.kf_setImageWithURL(imageUrl)
             cell.videoImage.kf_showIndicatorWhenLoading = true
         }
         cell.videoId = item.videoId
@@ -312,6 +324,15 @@ class WikiTableViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.searchBar.resignFirstResponder()
+        self.searchBar.placeholder = "\"#Genius/#rappingmanual\"/\"video name\""
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.searchBar.placeholder = "Scroll to hide keyboard"
     }
     
     // MARK: - Navigation

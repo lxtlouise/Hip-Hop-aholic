@@ -74,7 +74,7 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     
-    private var nextPageToken:String! = ""
+    private var nextPageToken: String!
     
     private var videosArray = [VideoItem]()
     
@@ -172,7 +172,7 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func getMorePlaylistDetails(){
-        if self.nextPageToken != ""{
+        if self.nextPageToken != nil{
             self.footer.beginRefreshing()
             let playlistURL = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=\(self.playlistId)&key=\(apiKey)&maxResults=50&pageToken=\(self.nextPageToken)"
             let url = NSURL(string: playlistURL)
@@ -187,7 +187,7 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
                         if let pageToken = json["nextPageToken"] as! String?{
                             self.nextPageToken = pageToken
                         }else{
-                            self.nextPageToken = ""
+                            self.nextPageToken = nil
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {self.playlistTableView.reloadData()}
@@ -252,7 +252,6 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func refreshArtistInformation(){
         self.alertInformation.hidden = true
-        self.videosArray.removeAll()
         self.getPlaylistDetails()
         self.getIntroduction()
     }
@@ -269,13 +268,15 @@ class ArtistInfoViewController: UIViewController, UITableViewDelegate, UITableVi
         let item = self.videosArray[indexPath.row]
         cell.videoTitle.text = item.videoTitle
         if let imageUrl = NSURL(string: item.videoThumbnails["medium"]!["url"] as! String){
-            dispatch_async(dispatch_get_main_queue()) {cell.videoImage.kf_setImageWithURL(imageUrl)}
+            cell.videoImage.kf_setImageWithURL(imageUrl)
             cell.videoImage.kf_showIndicatorWhenLoading = true
             cell.videoImage.kf_indicator?.color = UIColor.cyanColor()
         }
         cell.videoId = item.videoId
+        if self.nextPageToken != nil{
+            self.footer.endRefreshing()
+        }
         self.header.endRefreshing()
-        self.footer.endRefreshing()
         self.spinner.stopAnimating()
         return cell
     }
